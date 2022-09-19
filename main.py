@@ -3,7 +3,7 @@ import sqlite3
 
 
 def readXLS(data_name: 'name file.xlsx'):
-    """read file data.xlsx"""
+    """read file data.xlsx and return list of lists of requests with authors """
     list_id, list_request, list_go, list_person, list_email = [], [], [], [], []
     count = 1
     try:
@@ -23,7 +23,7 @@ def readXLS(data_name: 'name file.xlsx'):
 
 
 def return_data():
-    """return one record from array list_data"""
+    """return list of tuples"""
     list_data = readXLS('data.xlsx')
     lst_tuple = list(zip(list_data[0], list_data[1], list_data[2], list_data[3], list_data[4]))
 
