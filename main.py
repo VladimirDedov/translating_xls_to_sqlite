@@ -31,24 +31,34 @@ def return_data():
 
 
 def main():
-    conn = sqlite3.connect('sd.db')  # connected for sd.db or create BD
-    cur = conn.cursor()  # for sql requests in BD
-    cur.execute("""CREATE TABLE IF NOT EXISTS sd(
-        go_id INT PRIMARY KEY,
-        request TEXT,
-        go TEXT,
-        fio TEXT,
-        e_mail TEXT
-    )
-    """)
+    flag = True
+    try:
+        conn = sqlite3.connect('sd.db')  # connected for sd.db or create BD
+        cur = conn.cursor()  # for sql requests in BD
+        cur.execute("""CREATE TABLE IF NOT EXISTS sd(
+            go_id INT PRIMARY KEY,
+            request TEXT,
+            go TEXT,
+            fio TEXT,
+            e_mail TEXT
+        )
+        """)
+    except:
+        flag = False
+        print("Не удалось подключиться или создать БД")
+
     conn.commit()
 
     tmp_lst = return_data()
-
-    cur.executemany("INSERT INTO sd VALUES(?,?,?,?,?)", tmp_lst)
+    try:
+        cur.executemany("INSERT INTO sd VALUES(?,?,?,?,?)", tmp_lst)
+    except:
+        flag = True
+        print("Не удалось записать данные")
     conn.commit()
+    if flag:
+        print("Данные успешно перенесены в БД sd.db")
 
-    print("Данные успешно перенесены в БД sd.db")
 
 if __name__ == "__main__":
     main()
